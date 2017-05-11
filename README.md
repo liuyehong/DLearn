@@ -92,6 +92,42 @@ The RandomCrystaClassifier is a random crystal for classification problems.
 * mcr(X_test, Y_test): The misclassification rate evaluated on the test data.
 * var_imp(X_train, Y_train): The function of variable importance.
 
+## Example
+### Simulation
+```
+from DBaggingRegressor import *
+import numpy as np
+
+n_train = 100  # sample size
+n_test = 100
+p = 5  # dimension of features
+
+# Generate data from a sparse linear model
+def f(X, std):
+    return np.sum(X[:, :2], axis=1) + std*np.random.normal(size=len(X))
+    
+def data_generator(f, n, p):  #sample size = n and dimension = p
+    X_train = np.random.normal(scale=1, size=[n, p])
+    Y_train = f(X_train, std=0.1)
+    return X_train, Y_train
+
+# Simulation
+for i in range(100):
+    X_train, Y_train = data_generator(f, n_train, p)  # generate training data from f(X)
+    X_test, Y_test = data_generator(f, n_test, p)  # generate testing data from f(X)
+    
+    dbag = DBaggingRegressor(n_estimator=100, n_bootstrap=0.9, greedy='no', max_dim=2)
+    dbag.fit(X_train, Y_train)
+    mse = dbag.mse(X_test, Y_test)
+    List_dbag.append(mse)
+    
+print np.average(List_dbag)
+```
+### Results
+```
+0.0671
+```
+
 ## Authors
 
 * **Yehong Liu (liuyh@hku.hk) and Guosheng Yin (gyin@hku.hk)**
