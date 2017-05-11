@@ -4,7 +4,6 @@ from scipy.spatial import ConvexHull
 import warnings
 
 
-
 class DBagging_Classifier():
     def __init__(self, n_estimator=None, max_dim=None, n_bootstrap=None,
                  Lambda=None, alpha=None, eps=None, h=None,
@@ -208,10 +207,10 @@ class DBagging_Classifier():
                 np.dot(List_Y_predict[:, i].transpose(), Para_List_is_in[:, i])
         return List_final_predict > 0.5
 
-    def score(self, X_test, Y_test):
+    def mcr(self, X_test, Y_test):
         Y_predict = self.predict(X_test)
-        R2 = np.sum(Y_predict == Y_test)/float(len(Y_test))
-        return R2
+        MCR = np.average(Y_predict != Y_test)
+        return MCR
 
     def var_imp(self, X_train, Y_train):
         Matrix_mcr = np.zeros([self.n_estimator, 1 + np.size(X_train, axis=1)])
@@ -381,18 +380,20 @@ class DBagging_Classifier():
         return Var_Importance
 
 if __name__ == '__main__':
-    from DataGenerator_Classification import *
+    from sklearn.datasets import make_classification
     n_train = 100  # sample size
     n_test = 100
 
-    p = 5  # dimension of features
-    X_train, Y_train = data_generator(f, n_train, p)  # generate training data from f(X)
-    X_test, Y_test = data_generator(f, n_test, p)
+    X, Y = make_classification(n_samples=200, n_features=5)
+    X_train = X[:100, :]
+    Y_train = Y[:100]
+    X_test = X[100:, :]
+    Y_test = Y[100:]
 
 
-    db = DBagging_Classifier(n_estimator=100)
-    #db.fit(X_train, Y_train)
-
-
-    #print db.score(X_test, Y_test)
+    db = DBagging_Classifier(n_estimator=10)
+    '''
+    db.fit(X_train, Y_train)
+    print db.mcr(X_test, Y_test)
+    '''
     print db.var_imp(X_train, Y_train)

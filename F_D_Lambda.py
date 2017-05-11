@@ -3,6 +3,8 @@ from sklearn.linear_model import LinearRegression
 from scipy.spatial import Delaunay
 from sklearn.tree import DecisionTreeRegressor
 from scipy.interpolate import interp1d
+from scipy.optimize import minimize
+
 # Single regularized Delaunay triangulation learner, with methods train and predict.
 '''
 The F_D_Lambda is the regularized Delaunay triangulation learner.
@@ -13,7 +15,7 @@ and two different regularization functions.
 
 class F_D_Lambda:
     def __init__(self, X_T=None, Z=None, tri=None, List_DXinv=None, Lambda=None, alpha=None, eps=None, h=None, mode=None,
-                 interpol=None):
+                 interpol=None, K=None):
         self.Z = Z
         self.tri = tri
         self.List_DXinv = List_DXinv
@@ -24,14 +26,13 @@ class F_D_Lambda:
         self.h = h
         self.mode = mode
         self.interpol = interpol
+        self.K = K
 
         if self.mode is None:
             self.mode = 'linear'
         else:
             self.mode = 'tree'
 
-        if self.Lambda is None:
-            self.Lambda = 0
 
         # Learning rate
         if self.alpha is None:
@@ -208,6 +209,7 @@ class F_D_Lambda:
             dtr = DecisionTreeRegressor()
             dtr.fit(X_train, Y_train)
             Z0 = dtr.predict(X_train)
+
         self.Z = (Y_train + self.Lambda*Z0)/float(1+self.Lambda)  # This quantity is based on squared regularization.
 
     # fit for 1d
@@ -256,12 +258,25 @@ class F_D_Lambda:
 
 
 
+    def tune_lambda(self, X_valid, Y_valid):
+        def cv_loss(Lambda):
+            Z0 = self.Z
+            self.Z = (Y_train + Lambda * Z0) / float(1 + Lambda)
+            return np.sum(np.square(Y_valid - self.predict(X_valid)))
+        list_cv_loss = [cv_loss(2**j) for j in range(10)]
+        j_opt = np.argmin(list_cv_loss)
+        Lambda_opt = 2**j_opt
+        print j_opt
+        print list_cv_loss
+        return Lambda_opt
+
+
 
 if __name__ == '__main__':
     from DataGenerator import *
 
     n_train = 100  # sample size
-    n_test = 10
+    n_test = 100
     eps = 0.01  # precision
     alpha = 1  # if the lambda is large, smaller alpha should be used.
 
@@ -272,4 +287,5 @@ if __name__ == '__main__':
     fdl = F_D_Lambda(Lambda=100, alpha=1)
     fdl.quick_fit(X_train, Y_train)
     #print fdl.ave_total_curvature()
-    print fdl.predict(X_test)
+    #print fdl.predict(X_test)
+    fdl.tune_lambda(X_test, Y_test)
