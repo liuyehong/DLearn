@@ -55,7 +55,7 @@ The DBaggingClassifier is a bagging Delaunay triangulation learner for classific
 
 ## Random crystal
 ```
-RandomCrystalRegressor(n_estimator, max_dim, n_bootstrap, weight_inside)
+RandomCrystalRegressor(n_estimator, max_dim, n_bootstrap, p_bootstrap, weight_inside)
 ```
 The RandomCrystalRegressor is a random crystal for regression problems.
 
@@ -74,7 +74,7 @@ The RandomCrystalRegressor is a random crystal for regression problems.
 * var_imp(X_train, Y_train): The function of variable importance.
 
 ```
-RandomCrystaClassifier(n_estimator, max_dim, n_bootstrap, weight_inside)
+RandomCrystaClassifier(n_estimator, max_dim, n_bootstrap, p_bootstrap, weight_inside)
 ```
 The RandomCrystaClassifier is a random crystal for classification problems.
 
