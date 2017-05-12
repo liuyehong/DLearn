@@ -138,6 +138,31 @@ print dbag.predict(X_test)
  -0.20840201  1.02853775  1.10220153  1.66377596]
 ```
 
+### Variable importance
+```
+from DBaggingRegressor import *
+n_train = 100  # sample size
+p = 5  # dimension of features
+
+# Generate data from a sparse linear model
+def f(X, std):
+    return np.sum(X[:, :2], axis=1) + std*np.random.normal(size=len(X))
+    
+def data_generator(f, n, p):  #sample size = n and dimension = p
+    X_train = np.random.normal(scale=1, size=[n, p])
+    Y_train = f(X_train, std=0.1)
+    return X_train, Y_train
+    
+X_train, Y_train = data_generator(f, n_train, p)  # generate training data from f(X)
+dbag = DBaggingRegressor(n_estimator=100, n_bootstrap=0.9, greedy='no', max_dim=2)
+print dbag.var_imp(X_train, Y_train)
+```
+
+### Result
+```
+0.0014
+```
+
 ### Simulation
 ```
 from DBaggingRegressor import *
