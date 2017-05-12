@@ -160,7 +160,7 @@ print dbag.var_imp(X_train, Y_train)
 
 ### Result
 ```
-0.0014
+[ 0.55648327  0.43259425  0.00316201  0.0053245   0.00243597]
 ```
 
 ### Simulation
