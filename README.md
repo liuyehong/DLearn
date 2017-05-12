@@ -24,7 +24,7 @@ The DBaggingRegressor is a bagging Delaunay triangulation learner for regression
 * max_dim: The maximum number of dimensions. The default value is the dimension of the feature space.
 * n_bootstrap: The proportion of the bootstrapped samples, which has the default value of 0.9.
 * weight_inside: The weight assigned to the base learners that contain the point of prediction inside their convex hulls, which has the default value of 0.99.
-* greedy: The parameter controlling whether to use the marginal greedy search method, which has the default value as `greedy'.
+* greedy: The parameter controlling whether to use the marginal greedy search method, which has the default value of `greedy'.
 * subspace_importance: The frequency of a subspace that has been used as the optimal subspace to build a DTL. 
 
 #### Methods
@@ -43,7 +43,7 @@ The DBaggingClassifier is a bagging Delaunay triangulation learner for classific
 * max_dim: The maximum number of dimensions. The default value is the dimension of the feature space.
 * n_bootstrap: The proportion of the bootstrapped samples, which has the default value of 0.9.
 * weight_inside: The weight assigned to the base learners that contain the point of prediction inside their convex hulls, which has the default value of 0.99.
-* greedy: The parameter controlling whether to use the marginal greedy search method, which has the default value as `greedy'.
+* greedy: The parameter controlling whether to use the marginal greedy search method, which has the default value of `greedy'.
 * subspace_importance: The frequency of a subspace that has been used as the optimal subspace to build a DTL. 
 
 #### Methods
