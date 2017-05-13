@@ -251,21 +251,21 @@ class RandomCrystalClassifier:
         return Var_Importance
 
 if __name__ == '__main__':
-    from sklearn.datasets import make_classification
+    from sklearn.datasets import make_moons
 
     n_train = 100  # sample size
     n_test = 100
 
-    X, Y = make_classification(n_samples=200, n_features=5)
+    X, Y = make_moons(n_samples=200)
     X_train = X[:100, :]
     Y_train = Y[:100]
     X_test = X[100:, :]
     Y_test = Y[100:]
 
     rc = RandomCrystalClassifier(n_estimator=10)
-    '''
+
     rc.fit(X_train, Y_train)
     print rc.predict(X_test)
-    print rc.mcr(X_test, Y_test)'''
+    print rc.mcr(X_test, Y_test)
     print rc.var_imp(X_train, Y_train)
 
