@@ -380,11 +380,11 @@ class DBagging_Classifier():
         return Var_Importance
 
 if __name__ == '__main__':
-    from sklearn.datasets import make_classification
+    from sklearn.datasets import make_moons
     n_train = 100  # sample size
     n_test = 100
 
-    X, Y = make_classification(n_samples=200, n_features=5)
+    X, Y = make_moons(n_samples=200)
     X_train = X[:100, :]
     Y_train = Y[:100]
     X_test = X[100:, :]
@@ -392,8 +392,8 @@ if __name__ == '__main__':
 
 
     db = DBagging_Classifier(n_estimator=10)
-    '''
+    
     db.fit(X_train, Y_train)
     print db.mcr(X_test, Y_test)
-    '''
+    
     print db.var_imp(X_train, Y_train)
