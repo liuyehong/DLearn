@@ -1,8 +1,8 @@
 # DLearn
-Delaunay Triangulation Learner and Random Crystal
+Random Crystal
 
 ## Description
-The Delaunay triangulation learner (DTL) is a new statistical learner that is constructed based on data Delaunay triangulation. The package contains modules including bagging DTL and random crystal, which can solve both regression and classification problems.
+The package contains modules including bagging DTL and random crystal, which can solve both regression and classification problems.
 
 ## Prerequisites
 What things you need to install the software and how to install them
